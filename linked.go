@@ -31,5 +31,3 @@ import (
 //go:linkname mmap syscall.mmap
 func mmap(addr uintptr, length uintptr, prot int, flags int, fd int, offset int64) (xaddr uintptr, err error)
 
-//go:linkname munmap syscall.munmap
-func munmap(addr uintptr, length uintptr) (err error)

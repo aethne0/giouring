@@ -27,6 +27,8 @@ import (
 	"math"
 	"syscall"
 	"unsafe"
+
+	"golang.org/x/sys/unix"
 )
 
 func sysMmap(addr, length uintptr, prot, flags, fd int, offset int64) (unsafe.Pointer, error) {
@@ -36,7 +38,12 @@ func sysMmap(addr, length uintptr, prot, flags, fd int, offset int64) (unsafe.Po
 }
 
 func sysMunmap(addr, length uintptr) error {
-	return munmap(addr, length)
+	return unix.Munmap(
+		unsafe.Slice(
+			(*byte)(unsafe.Pointer(addr)),
+			length,
+		),
+	)
 }
 
 func sysMadvise(address, length, advice uintptr) error {
